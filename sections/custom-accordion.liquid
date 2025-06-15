@@ -1,0 +1,72 @@
+<div class="custom-accordion">
+  {% assign acc_titles = "Product Specifications|Materials & Care|Shipping & Returns|FAQ" | split: "|" %}
+  {% assign acc_fields = "specs|materials|shipping|faq" | split: "|" %}
+
+  {% for i in (0..acc_titles.size) %}
+    {% assign title = acc_titles[i] %}
+    {% assign field = acc_fields[i] %}
+    {% assign content = product.metafields.custom[field] %}
+
+    {% if content != blank %}
+      <div class="accordion-item">
+        <button class="accordion-button">
+          {{ title }}
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-content">
+          {{ content }}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<style>
+  .accordion-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    background: #f5f5f5;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .accordion-icon {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .accordion-content {
+    display: none;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+
+  .accordion-item.active .accordion-content {
+    display: block;
+  }
+
+  .accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".accordion-button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const item = btn.parentElement;
+        const icon = btn.querySelector(".accordion-icon");
+
+        item.classList.toggle("active");
+        icon.textContent = item.classList.contains("active") ? "−" : "+";
+      });
+    });
+  });
+</script>

@@ -1,0 +1,174 @@
+{% comment %}
+  Custom Swiper Gallery Section
+{% endcomment %}
+
+<div class="custom-swiper-gallery">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+       <div class="swiper-slide" data-color="{{ block.settings.color_tag }}">
+          <img
+            src="{{ block.settings.image | image_url: width: 1200 }}"
+            alt="{{ block.settings.alt_text }}"
+            width="1200"
+            height="auto"
+            style="width: 100%; height: auto;"
+          >
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.show_pagination %}
+      <div class="swiper-pagination"></div>
+    {% endif %}
+
+    {% if section.settings.show_navigation %}
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: {{ section.settings.slides_desktop }},
+      spaceBetween: {{ section.settings.space_between }},
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: {{ section.settings.slides_desktop }},
+        },
+        768: {
+          slidesPerView: {{ section.settings.slides_tablet }},
+        },
+        480: {
+          slidesPerView: {{ section.settings.slides_mobile }},
+        },
+      },
+    });
+
+    
+    var colorSelect = document.querySelector('[name="options[Color]"]');
+    if (colorSelect) {
+      colorSelect.addEventListener('change', function () {
+        var selectedColor = this.value;
+        document.querySelectorAll('.swiper-slide').forEach(function (slide) {
+          if (slide.getAttribute('data-color') === selectedColor) {
+            slide.style.display = 'block';
+          } else {
+            slide.style.display = 'none';
+          }
+        });
+        swiper.update();
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom Swiper Gallery",
+  "settings": [
+    {
+  "type": "range",
+  "id": "slides_desktop",
+  "label": "Слайдів на ПК",
+  "min": 1,
+  "max": 6,
+  "default": 3
+},
+{
+  "type": "range",
+  "id": "slides_tablet",
+  "label": "Слайдів на планшеті",
+  "min": 1,
+  "max": 4,
+  "default": 2
+},
+{
+  "type": "range",
+  "id": "slides_mobile",
+  "label": "Слайдів на мобільному",
+  "min": 1,
+  "max": 2,
+  "default": 1
+},
+{
+  "type": "checkbox",
+  "id": "show_pagination",
+  "label": "Показувати пагінацію",
+  "default": true
+},
+{
+  "type": "checkbox",
+  "id": "show_navigation",
+  "label": "Показувати стрілки",
+  "default": true
+},
+{
+  "type": "range",
+  "id": "space_between",
+  "label": "Відступ між слайдами (px)",
+  "min": 0,
+  "max": 100,
+  "default": 10
+}
+    {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+  },
+  {
+    "type": "text",
+    "id": "alt_text",
+    "label": "Alt text",
+    "default": "Image"
+  },
+  {
+    "type": "text",
+    "id": "color_tag",
+    "label": "Color tag (for filtering)",
+    "default": "Red"
+  }
+  ],
+  "blocks": [
+  {
+    "type": "image_slide",
+    "name": "Image Slide",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "alt_text",
+        "label": "Alt text",
+        "default": "Red"
+      },
+      {
+        "type": "text",
+        "id": "color_tag",
+        "label": "Color tag (for filtering)",
+        "default": "Red"
+      }
+    ]
+  }
+],
+  "presets": [
+    {
+      "name": "Custom Swiper Gallery",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}

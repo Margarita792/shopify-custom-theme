@@ -1,3 +1,4 @@
+
 <h1 align="center" style="position: relative;">
   <br>
     <img src="./assets/shoppy-x-ray.svg" alt="logo" width="200">
@@ -158,3 +159,35 @@ Visit our [CONTRIBUTING.md](./CONTRIBUTING.md) for a detailed overview of our pr
 ## License
 
 Skeleton Theme is open-sourced under the [MIT](./LICENSE.md) License.
+
+---
+
+##  Test Task Add-on (Custom Accordion + Swiper)
+
+This theme has been extended with the following custom sections as part of a test task:
+
+###  Custom Accordion
+
+- Displays product metafields as collapsible items:
+  - `custom.specs`
+  - `custom.materials`
+  - `custom.shipping`
+  - `custom.faq`
+- Uses Liquid loops and logic to render blocks only when the metafield is filled.
+
+###  Custom Swiper Gallery
+
+- Carousel section implemented using [Swiper.js CDN](https://swiperjs.com/)
+- Image filtering by color (`red`, `blue`, `green`)
+- JavaScript placed directly in the section file for demonstration purposes
+
+###  Metafields
+
+Product metafields added via Shopify Admin:
+
+| Key              | Namespace | Type            | Example Value                        |
+|------------------|-----------|------------------|---------------------------------------|
+| `specs`          | `custom`  | Multi-line text  | Тканина: 100% бавовна                |
+| `materials`      | `custom`  | Multi-line text  | Ручне прання, не прасувати           |
+| `shipping`       | `custom`  | Multi-line text  | Доставка 3–5 днів, повернення 14 днів|
+| `faq`            | `custom`  | Multi-line text  | Чи можна повернути товар? — Так      |
