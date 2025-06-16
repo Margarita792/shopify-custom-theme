@@ -59,14 +59,41 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".accordion-button").forEach(function (btn) {
+    const mode = "{{ section.settings.accordion_mode | default: 'multiple' }}";
+    const buttons = document.querySelectorAll(".accordion-button");
+
+    buttons.forEach(function (btn) {
       btn.addEventListener("click", function () {
         const item = btn.parentElement;
-        const icon = btn.querySelector(".accordion-icon");
+
+        if (mode === "single") {
+          document.querySelectorAll(".accordion-item").forEach(function (el) {
+            if (el !== item) el.classList.remove("active");
+          });
+        }
 
         item.classList.toggle("active");
+        const icon = btn.querySelector(".accordion-icon");
         icon.textContent = item.classList.contains("active") ? "−" : "+";
       });
     });
   });
 </script>
+
+{% schema %}
+{
+  "name": "Custom Accordion",
+  "settings": [
+    {
+      "type": "select",
+      "id": "accordion_mode",
+      "label": "Accordion Mode",
+      "options": [
+        { "value": "single", "label": "Only One Open" },
+        { "value": "multiple", "label": "Multiple Can Be Open" }
+      ],
+      "default": "multiple"
+    }
+  ]
+}
+{% endschema %}

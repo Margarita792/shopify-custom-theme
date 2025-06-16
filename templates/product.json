@@ -10,11 +10,14 @@
 {
   "sections": {
     "main": {
-      "type": "product",
-      "settings": {}
+      "type": "main-product"
+    },
+    "swiper-gallery": {
+      "type": "custom-swiper"
     }
   },
   "order": [
-    "main"
+    "main",
+    "swiper-gallery"
   ]
 }

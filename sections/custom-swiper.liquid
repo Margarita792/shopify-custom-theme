@@ -1,12 +1,8 @@
-{% comment %}
-  Custom Swiper Gallery Section
-{% endcomment %}
-
 <div class="custom-swiper-gallery">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
-        <div class="swiper-slide" data-color="{{ block.settings.color_tag }}">
+        <div class="swiper-slide" data-color="{{ block.settings.color_tag | downcase }}">
           <img
             src="{{ block.settings.image | image_url: width: 1200 }}"
             alt="{{ block.settings.alt_text }}"
@@ -30,45 +26,47 @@
 </div>
 
 <script>
-   document.addEventListener('DOMContentLoaded', function () {
-    var swiper = new Swiper('.swiper-container', {
-      slidesPerView: {{ section.settings.slides_desktop }},
+  document.addEventListener("DOMContentLoaded", function () {
+    // Инициализация Swiper
+    const swiper = new Swiper(".swiper-container", {
+      slidesPerView: {{ section.settings.slides_mobile }},
       spaceBetween: {{ section.settings.space_between }},
       pagination: {
-        el: '.swiper-pagination',
+        el: ".swiper-pagination",
         clickable: true,
       },
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
       },
       breakpoints: {
-        1024: {
-          slidesPerView: {{ section.settings.slides_desktop }},
-        },
         768: {
           slidesPerView: {{ section.settings.slides_tablet }},
         },
-        480: {
-          slidesPerView: {{ section.settings.slides_mobile }},
+        1024: {
+          slidesPerView: {{ section.settings.slides_desktop }},
         },
-      },
+      }
     });
 
+    
+    const colorSelect = document.querySelector('[name="options[Color]"]');
+    const slides = document.querySelectorAll(".swiper-slide");
 
-    var colorSelect = document.querySelector('[name="options[Color]"]');
     if (colorSelect) {
-      colorSelect.addEventListener('change', function () {
-        var selectedColor = this.value;
-        document.querySelectorAll('.swiper-slide').forEach(function (slide) {
-          if (slide.getAttribute('data-color') === selectedColor) {
-            slide.style.display = 'block';
-          } else {
-            slide.style.display = 'none';
-          }
+      const filterSlides = () => {
+        const selected = colorSelect.value.toLowerCase();
+
+        slides.forEach((slide) => {
+          const color = slide.dataset.color.toLowerCase();
+          slide.style.display = color === selected ? "block" : "none";
         });
-        swiper.update();
-      });
+
+        swiper.update(); 
+      };
+
+      colorSelect.addEventListener("change", filterSlides);
+      filterSlides(); 
     }
   });
 </script>
@@ -82,7 +80,8 @@
       "id": "slides_desktop",
       "label": "Slides on Desktop",
       "min": 1,
-      "max": 6,
+      "max": 5,
+      "step": 1,
       "default": 3
     },
     {
@@ -90,7 +89,8 @@
       "id": "slides_tablet",
       "label": "Slides on Tablet",
       "min": 1,
-      "max": 4,
+      "max": 5,
+      "step": 1,
       "default": 2
     },
     {
@@ -103,14 +103,6 @@
       "default": 1
     },
     {
-      "type": "range",
-      "id": "space_between",
-      "label": "Space Between Slides",
-      "min": 0,
-      "max": 100,
-      "default": 10
-    },
-    {
       "type": "checkbox",
       "id": "show_pagination",
       "label": "Show Pagination",
@@ -121,6 +113,15 @@
       "id": "show_navigation",
       "label": "Show Navigation Arrows",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "space_between",
+      "label": "Space Between Slides",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 10
     }
   ],
   "blocks": [
@@ -136,13 +137,12 @@
         {
           "type": "text",
           "id": "alt_text",
-          "label": "Alt text"
+          "label": "Alt Text"
         },
         {
           "type": "text",
           "id": "color_tag",
-          "label": "Color tag (for filtering)",
-          "default": "Red"
+          "label": "Color Tag"
         }
       ]
     }
