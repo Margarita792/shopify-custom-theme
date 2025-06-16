@@ -10,15 +10,21 @@
 {
   "sections": {
     "main": {
-      "type": "main-product"
+      "type": "main-product",
+      "settings": {}
     },
-    "swiper-gallery": {
+    "swiper": {
       "type": "custom-swiper",
+      "settings": {}
+    },
+    "accordion": {
+      "type": "custom-accordion",
       "settings": {}
     }
   },
   "order": [
     "main",
-    "swiper-gallery"
+    "swiper",
+    "accordion"
   ]
 }

@@ -1,130 +1,96 @@
-<div class="custom-swiper-gallery">
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      {% for block in section.blocks %}
-        <div class="swiper-slide" data-color="{{ block.settings.color_tag | downcase }}" style="display: none;">
-          <img
-            src="{{ block.settings.image | image_url: width: 1200 }}"
-            alt="{{ block.settings.alt_text }}"
-            width="1200"
-            height="auto"
-            style="width: 100%; height: auto;"
-          >
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" defer></script>
+
+<div class="swiper custom-swiper">
+  <div class="swiper-wrapper">
+    {% for block in section.blocks %}
+      {% if block.settings.image != blank %}
+        <div class="swiper-slide" data-color="{{ block.settings.color_tag | downcase }}">
+          <img 
+            src="{{ block.settings.image | image_url: width: 800 }}" 
+            alt="{{ block.settings.alt_text | escape }}"
+            width="800"
+            height="600"
+            loading="lazy"
+            style="max-width: 100%; height: auto;" />
         </div>
-      {% endfor %}
-    </div>
-
-    {% if section.settings.show_pagination %}
-      <div class="swiper-pagination"></div>
-    {% endif %}
-
-    {% if section.settings.show_navigation %}
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    {% endif %}
+      {% endif %}
+    {% endfor %}
   </div>
+
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const swiper = new Swiper('.swiper-container', {
-      slidesPerView: {{ section.settings.slides_desktop }},
-      spaceBetween: {{ section.settings.space_between }},
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
+<style>
+  .custom-swiper {
+    width: 100%;
+    margin: 30px 0;
+  }
+  .swiper-slide {
+    text-align: center;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #007aff;
+    top: 40%;
+  }
+</style>
 
-    const colorSelect = document.querySelector('select[name^="options"]');
-    if (colorSelect) {
-      console.log('Color selector found');
-      colorSelect.addEventListener('change', function () {
-        const selectedColor = this.value.toLowerCase();
-        console.log('Selected color:', selectedColor);
-        let matchedSlides = 0;
-
-        document.querySelectorAll('.swiper-slide').forEach(function (slide) {
-          const color = slide.getAttribute('data-color');
-          if (color === selectedColor) {
-            slide.style.display = 'block';
-            matchedSlides++;
-          } else {
-            slide.style.display = 'none';
-          }
-        });
-
-        console.log('Matching slides found:', matchedSlides);
-        swiper.update();
-      });
-    } else {
-      console.warn('Color selector NOT found');
-    }
+<script defer>
+ document.addEventListener("DOMContentLoaded", function () {
+  const swiper = new Swiper(".custom-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
   });
+
+  function updateSwiperByColor(selectedColor) {
+    const slides = document.querySelectorAll(".swiper-slide");
+    slides.forEach(function (slide) {
+      const color = slide.getAttribute("data-color");
+      slide.style.display = color === selectedColor ? "block" : "none";
+    });
+    swiper.update();
+  }
+
+  function waitForColorSelector(callback) {
+    const interval = setInterval(function () {
+      const colorSelect = document.querySelector('[name="options[Color]"]');
+      if (colorSelect) {
+        clearInterval(interval);
+        callback(colorSelect);
+      }
+    }, 200);
+  }
+
+  waitForColorSelector(function (colorSelect) {
+    updateSwiperByColor(colorSelect.value.toLowerCase());
+    colorSelect.addEventListener("change", function () {
+      updateSwiperByColor(this.value.toLowerCase());
+    });
+  });
+});
 </script>
 
 {% schema %}
 {
   "name": "Custom Swiper Gallery",
-  "settings": [
-    {
-      "type": "range",
-      "id": "slides_desktop",
-      "label": "Slides on Desktop",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "range",
-      "id": "slides_tablet",
-      "label": "Slides on Tablet",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 2
-    },
-    {
-      "type": "range",
-      "id": "slides_mobile",
-      "label": "Slides on Mobile",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 1
-    },
-    {
-      "type": "checkbox",
-      "id": "show_pagination",
-      "label": "Show Pagination",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_navigation",
-      "label": "Show Navigation Arrows",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "space_between",
-      "label": "Space Between Slides",
-      "min": 0,
-      "max": 50,
-      "step": 5,
-      "default": 10
-    }
-  ],
+  "tag": "section",
+  "settings": [],
   "blocks": [
     {
-      "type": "image_slide",
+      "type": "image",
       "name": "Image Slide",
       "settings": [
+        {
+          "type": "text",
+          "id": "color_tag",
+          "label": "Color Tag"
+        },
         {
           "type": "image_picker",
           "id": "image",
@@ -133,12 +99,7 @@
         {
           "type": "text",
           "id": "alt_text",
-          "label": "Alt Text"
-        },
-        {
-          "type": "text",
-          "id": "color_tag",
-          "label": "Color Tag"
+          "label": "Alt text"
         }
       ]
     }
@@ -146,7 +107,7 @@
   "presets": [
     {
       "name": "Custom Swiper Gallery",
-      "category": "Media"
+      "category": "Product"
     }
   ]
 }
