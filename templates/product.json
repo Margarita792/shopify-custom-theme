@@ -15,11 +15,98 @@
     },
     "swiper": {
       "type": "custom-swiper",
+      "blocks": {
+        "image_8VQm8C": {
+          "type": "image",
+          "settings": {
+            "color_tag": "red",
+            "image": "shopify://shop_images/orange-poles-create-a-tunnel.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_afcDWD": {
+          "type": "image",
+          "settings": {
+            "color_tag": "red",
+            "image": "shopify://shop_images/person-dressed-in-black-holds-two-weights-in-each-hand.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_JmqpdC": {
+          "type": "image",
+          "settings": {
+            "color_tag": "red",
+            "image": "shopify://shop_images/ripe-red-strawberries-against-pink.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_Pkzrr4": {
+          "type": "image",
+          "settings": {
+            "color_tag": "blue",
+            "image": "shopify://shop_images/model-in-heels-and-overalls-with-blue.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_MRkhRR": {
+          "type": "image",
+          "settings": {
+            "color_tag": "blue",
+            "image": "shopify://shop_images/tie-clip.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_76mGiN": {
+          "type": "image",
+          "settings": {
+            "color_tag": "blue",
+            "image": "shopify://shop_images/sun-setting-over-ocean.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_pUc8Nr": {
+          "type": "image",
+          "settings": {
+            "color_tag": "green",
+            "image": "shopify://shop_images/green-and-white-marbled-coloring.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_8xdfYX": {
+          "type": "image",
+          "settings": {
+            "color_tag": "green",
+            "image": "shopify://shop_images/green-plants-grow-in-lines-on-rolling-hills.jpg",
+            "alt_text": ""
+          }
+        },
+        "image_E7WNiN": {
+          "type": "image",
+          "settings": {
+            "color_tag": "green",
+            "image": "shopify://shop_images/prairie-woman-at-sunset.jpg",
+            "alt_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_8VQm8C",
+        "image_afcDWD",
+        "image_JmqpdC",
+        "image_Pkzrr4",
+        "image_MRkhRR",
+        "image_76mGiN",
+        "image_pUc8Nr",
+        "image_8xdfYX",
+        "image_E7WNiN"
+      ],
       "settings": {}
     },
     "accordion": {
       "type": "custom-accordion",
-      "settings": {}
+      "settings": {
+        "accordion_mode": "multiple"
+      }
     }
   },
   "order": [
