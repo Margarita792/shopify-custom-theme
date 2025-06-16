@@ -1,11 +1,8 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    <!-- Swiper CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
-    />
+    
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
     {% comment %} Inlined CSS Variables {% endcomment %}
     {% render 'css-variables' %}
@@ -26,10 +23,6 @@
 
     {% sections 'footer-group' %}
 
-    <!-- Swiper JS (deferred) -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"
-      defer
-    ></script>
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
   </body>
 </html>

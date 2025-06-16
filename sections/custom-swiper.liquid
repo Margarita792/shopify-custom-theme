@@ -2,7 +2,7 @@
   <div class="swiper-container">
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
-        <div class="swiper-slide" data-color="{{ block.settings.color_tag | downcase }}">
+        <div class="swiper-slide" data-color="{{ block.settings.color_tag | downcase }}" style="display: none;">
           <img
             src="{{ block.settings.image | image_url: width: 1200 }}"
             alt="{{ block.settings.alt_text }}"
@@ -26,47 +26,43 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Инициализация Swiper
-    const swiper = new Swiper(".swiper-container", {
-      slidesPerView: {{ section.settings.slides_mobile }},
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.swiper-container', {
+      slidesPerView: {{ section.settings.slides_desktop }},
       spaceBetween: {{ section.settings.space_between }},
       pagination: {
-        el: ".swiper-pagination",
+        el: '.swiper-pagination',
         clickable: true,
       },
       navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
       },
-      breakpoints: {
-        768: {
-          slidesPerView: {{ section.settings.slides_tablet }},
-        },
-        1024: {
-          slidesPerView: {{ section.settings.slides_desktop }},
-        },
-      }
     });
 
-    
-    const colorSelect = document.querySelector('[name="options[Color]"]');
-    const slides = document.querySelectorAll(".swiper-slide");
-
+    const colorSelect = document.querySelector('select[name^="options"]');
     if (colorSelect) {
-      const filterSlides = () => {
-        const selected = colorSelect.value.toLowerCase();
+      console.log('Color selector found');
+      colorSelect.addEventListener('change', function () {
+        const selectedColor = this.value.toLowerCase();
+        console.log('Selected color:', selectedColor);
+        let matchedSlides = 0;
 
-        slides.forEach((slide) => {
-          const color = slide.dataset.color.toLowerCase();
-          slide.style.display = color === selected ? "block" : "none";
+        document.querySelectorAll('.swiper-slide').forEach(function (slide) {
+          const color = slide.getAttribute('data-color');
+          if (color === selectedColor) {
+            slide.style.display = 'block';
+            matchedSlides++;
+          } else {
+            slide.style.display = 'none';
+          }
         });
 
-        swiper.update(); 
-      };
-
-      colorSelect.addEventListener("change", filterSlides);
-      filterSlides(); 
+        console.log('Matching slides found:', matchedSlides);
+        swiper.update();
+      });
+    } else {
+      console.warn('Color selector NOT found');
     }
   });
 </script>
