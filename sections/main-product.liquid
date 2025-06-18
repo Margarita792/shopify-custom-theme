@@ -15,6 +15,7 @@
 </div>
 
 <div class="product-form">
+  <!-- Product form with variant selector and quantity input -->
   {% form 'product', product %}
     {% assign current_variant = product.selected_or_first_available_variant %}
 

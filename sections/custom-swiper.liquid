@@ -1,6 +1,7 @@
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" defer></script>
 
+<!-- Swiper Section Start -->
 <div class="swiper custom-swiper">
   <div class="swiper-wrapper">
     {% for block in section.blocks %}
@@ -21,6 +22,7 @@
   <div class="swiper-button-prev"></div>
   <div class="swiper-button-next"></div>
 </div>
+<!-- Swiper Section End -->
 
 <style>
   .custom-swiper {
@@ -38,42 +40,43 @@
 </style>
 
 <script defer>
- document.addEventListener("DOMContentLoaded", function () {
-  const swiper = new Swiper(".custom-swiper", {
-    slidesPerView: 1,
-    spaceBetween: 20,
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-  });
-
-  function updateSwiperByColor(selectedColor) {
-    const slides = document.querySelectorAll(".swiper-slide");
-    slides.forEach(function (slide) {
-      const color = slide.getAttribute("data-color");
-      slide.style.display = color === selectedColor ? "block" : "none";
+  // Swiper filtering logic
+  document.addEventListener("DOMContentLoaded", function () {
+    const swiper = new Swiper(".custom-swiper", {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
     });
-    swiper.update();
-  }
 
-  function waitForColorSelector(callback) {
-    const interval = setInterval(function () {
-      const colorSelect = document.querySelector('[name="options[Color]"]');
-      if (colorSelect) {
-        clearInterval(interval);
-        callback(colorSelect);
-      }
-    }, 200);
-  }
+    function updateSwiperByColor(selectedColor) {
+      const slides = document.querySelectorAll(".swiper-slide");
+      slides.forEach(function (slide) {
+        const color = slide.getAttribute("data-color");
+        slide.style.display = color === selectedColor ? "block" : "none";
+      });
+      swiper.update();
+    }
 
-  waitForColorSelector(function (colorSelect) {
-    updateSwiperByColor(colorSelect.value.toLowerCase());
-    colorSelect.addEventListener("change", function () {
-      updateSwiperByColor(this.value.toLowerCase());
+    function waitForColorSelector(callback) {
+      const interval = setInterval(function () {
+        const colorSelect = document.querySelector('[name="options[Color]"]');
+        if (colorSelect) {
+          clearInterval(interval);
+          callback(colorSelect);
+        }
+      }, 200);
+    }
+
+    waitForColorSelector(function (colorSelect) {
+      updateSwiperByColor(colorSelect.value.toLowerCase());
+      colorSelect.addEventListener("change", function () {
+        updateSwiperByColor(this.value.toLowerCase());
+      });
     });
   });
-});
 </script>
 
 {% schema %}

@@ -16,7 +16,6 @@
     {{ content_for_header }}
   </head>
 
-  
   <body>
     {% sections 'header-group' %}
 
@@ -24,6 +23,7 @@
 
     {% sections 'footer-group' %}
 
-   <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+    <!-- Swiper JS loaded at the end of body -->
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
   </body>
 </html>
